@@ -4,6 +4,7 @@
 
 - [Mission Center: Snap permissions and display startup](docs/applications/mission-center/snap-permissions-and-display.md)
 - [Mission Center: Flatpak missing from KDE menu](docs/applications/mission-center/flatpak-missing-from-kde-menu.md)
+- [Teams for Linux: Snap authentication issue and Flatpak camera/microphone permissions](docs/applications/teams-for-linux/snap-to-flatpak-auth-and-device-permissions.md)
 
 ## Package managers
 
