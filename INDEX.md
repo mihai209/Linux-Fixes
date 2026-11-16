@@ -19,6 +19,10 @@
 - [Mesa](docs/graphics/mesa/README.md)
 - [Intel UHD Graphics G1: Vulkan and media drivers](docs/graphics/intel/uhd-g1-vulkan-and-media-drivers.md)
 
+## System administration
+
+- [ZRAM on Ubuntu with systemd-zram-generator](docs/system/zram-ubuntu-systemd-zram-generator.md)
+
 ## Tools and automation
 
 - [Interactive Linux system assistant](scripts/linux-assistant.sh) — detects hardware and software, then offers opt-in setup categories.
