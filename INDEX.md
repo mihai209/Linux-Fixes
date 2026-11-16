@@ -18,6 +18,10 @@
 - [Mesa](docs/graphics/mesa/README.md)
 - [Intel UHD Graphics G1: Vulkan and media drivers](docs/graphics/intel/uhd-g1-vulkan-and-media-drivers.md)
 
+## Development environments
+
+- [Ubuntu development toolchain: C/C++, CMake, Node.js and pnpm](docs/development/ubuntu-development-toolchain.md)
+
 ## Templates
 
 - [Problem report template](templates/problem-template.md)
