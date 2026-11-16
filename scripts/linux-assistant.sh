@@ -138,6 +138,32 @@ drivers_menu() {
     fi
 }
 
+pnpm_menu() {
+    say "PNPM PACKAGE MANAGER"
+    have curl || { warn "curl is required to install pnpm."; return 1; }
+
+    if ! have node; then
+        warn "Node.js is not installed. pnpm needs Node.js for most project workflows."
+        if ask_yes_no "Install Node.js and npm from Ubuntu/Debian repositories first?"; then
+            install_apt_packages "Node.js and npm" nodejs npm
+        else
+            info "Skipped pnpm installation because Node.js is missing."
+            return 0
+        fi
+    fi
+
+    if have pnpm; then
+        info "pnpm is already installed: $(pnpm --version)"
+        if ! ask_yes_no "Re-run the official pnpm installer/update?"; then return 0; fi
+    else
+        if ! ask_yes_no "Install pnpm using the official pnpm installer?"; then return 0; fi
+    fi
+
+    say "Running the official pnpm installer"
+    curl -fsSL https://get.pnpm.io/install.sh | sh -
+    info "Restart the terminal or reload your shell profile, then verify with: pnpm --version"
+}
+
 development_menu() {
     install_apt_packages "C/C++ and build toolchain" \
         build-essential cmake ninja-build pkg-config ccache \
@@ -245,7 +271,7 @@ main_menu() {
             4) multimedia_menu; pause ;;
             5) network_menu; pause ;;
             6) diagnostics_menu; pause ;;
-            8) shell_menu; pause ;;
+            8) shell_menu; pause ;;\n            9) pnpm_menu; pause ;;
             7)
                 detect_system
                 say "Choose which setup categories you need:"
