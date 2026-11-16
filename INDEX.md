@@ -18,6 +18,10 @@
 - [Mesa](docs/graphics/mesa/README.md)
 - [Intel UHD Graphics G1: Vulkan and media drivers](docs/graphics/intel/uhd-g1-vulkan-and-media-drivers.md)
 
+## Tools and automation
+
+- [Interactive Linux system assistant](scripts/linux-assistant.sh) — detects hardware and software, then offers opt-in setup categories.
+
 ## Development environments
 
 - [Ubuntu development toolchain: C/C++, CMake, Node.js and pnpm](docs/development/ubuntu-development-toolchain.md)
