@@ -101,6 +101,7 @@ install_apt_packages() {
     local -a packages=("$@")
     is_apt_system || { warn "This installer currently supports APT-based Ubuntu/Debian systems only."; return 1; }
     have apt-get || die "apt-get not found"
+    have sudo || die "sudo is required to install system packages."
     say "$title"
     printf 'Packages: %s\n' "${packages[*]}"
     ask_yes_no "Install these packages?" || { info "Skipped."; return 0; }
@@ -125,7 +126,7 @@ drivers_menu() {
             fi
         fi
         warn "No driver will be installed automatically. Check the detected hardware and the vendor/Ubuntu recommendation first."
-        if have ubuntu-drivers && ask_yes_no "Run 'sudo ubuntu-drivers autoinstall' to install Ubuntu-recommended proprietary drivers?"; then
+        if have ubuntu-drivers && have sudo && ask_yes_no "Run 'sudo ubuntu-drivers autoinstall' to install Ubuntu-recommended proprietary drivers?"; then
             sudo ubuntu-drivers autoinstall
         fi
         if ask_yes_no "Install common firmware and Mesa/Vulkan diagnostic support (may be unnecessary on some systems)?"; then
@@ -269,7 +270,6 @@ fi
 
 # Execute unconditionally: this script is also commonly run through curl | bash.
 # BASH_SOURCE[0] is not a reliable entrypoint check when Bash reads from stdin.
-if ! have sudo; then die "sudo is required for package installation."; fi
 if ! have curl; then
     warn "curl is missing. Install it manually with your distribution's package manager before using pnpm or Atuin."
 fi
