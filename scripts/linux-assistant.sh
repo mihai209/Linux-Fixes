@@ -169,6 +169,60 @@ diagnostics_menu() {
         pciutils usbutils inxi lm-sensors smartmontools lshw hwinfo
 }
 
+
+shell_menu() {
+    say "ZSH + ATUIN"
+    is_apt_system || { warn "Automatic shell installation currently supports APT-based Ubuntu/Debian systems only."; return 1; }
+
+    install_apt_packages "Zsh shell" zsh
+
+    if ! have zsh; then
+        warn "Zsh is not available after installation; skipping Atuin shell setup."
+        return 1
+    fi
+    info "Zsh version: $(zsh --version)"
+
+    if ask_yes_no "Set Zsh as your default login shell?"; then
+        local zsh_path
+        zsh_path="$(command -v zsh)"
+        if ! grep -Fxq "$zsh_path" /etc/shells 2>/dev/null; then
+            warn "$zsh_path is not listed in /etc/shells; not changing the login shell."
+        elif have chsh; then
+            chsh -s "$zsh_path"
+            info "Default shell changed. Log out and back in for the login shell change to take effect."
+        else
+            warn "chsh is not installed; cannot change the default shell."
+        fi
+    fi
+
+    if ask_yes_no "Install Atuin (interactive shell history search) using its official installer?"; then
+        have curl || die "curl is required to install Atuin."
+        say "Installing Atuin from the official setup.atuin.sh installer"
+        curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh -s -- --non-interactive
+
+        local zshrc="${ZDOTDIR:-$HOME}/.zshrc"
+        mkdir -p "$(dirname "$zshrc")"
+        touch "$zshrc"
+
+        if ! grep -Fq 'atuin init zsh' "$zshrc"; then
+            printf '\n# Atuin shell history\neval "$(atuin init zsh)"\n' >> "$zshrc"
+        fi
+        if ! grep -Fq '.atuin/bin' "$zshrc"; then
+            printf '\n# Atuin binary path\nexport PATH="$HOME/.atuin/bin:$PATH"\n' >> "$zshrc"
+        fi
+
+        if [[ -x "$HOME/.atuin/bin/atuin" ]]; then
+            info "Atuin installed: $("$HOME/.atuin/bin/atuin" --version)"
+        elif have atuin; then
+            info "Atuin installed: $(atuin --version)"
+        else
+            warn "Atuin installer finished, but the binary was not found in the expected path."
+        fi
+        info "Restart the terminal or run: exec zsh"
+        info "In Zsh, press Ctrl+R to search command history with Atuin."
+    fi
+}
+
 main_menu() {
     while true; do
         say "LINUX-FIXES SYSTEM ASSISTANT v$VERSION"
@@ -180,6 +234,7 @@ main_menu() {
           "5) Network troubleshooting tools" \
           "6) System diagnostic utilities" \
           "7) Run full detection, then choose categories" \
+          "8) Zsh + Atuin shell setup" \
           "0) Exit"
         read -r -p "Choose an option: " choice || exit 0
         case "$choice" in
@@ -188,7 +243,7 @@ main_menu() {
             3) development_menu; pause ;;
             4) multimedia_menu; pause ;;
             5) network_menu; pause ;;
-            6) diagnostics_menu; pause ;;
+            6) diagnostics_menu; pause ;;\n            8) shell_menu; pause ;;
             7)
                 detect_system
                 say "Choose which setup categories you need:"
@@ -212,10 +267,10 @@ if [[ ! -t 0 ]]; then
     exec </dev/tty
 fi
 
-if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
-    if ! have sudo; then die "sudo is required for package installation."; fi
-    if ! have curl; then
-        warn "curl is missing. Install it manually with your distribution's package manager before using the pnpm option."
-    fi
-    main_menu
+# Execute unconditionally: this script is also commonly run through curl | bash.
+# BASH_SOURCE[0] is not a reliable entrypoint check when Bash reads from stdin.
+if ! have sudo; then die "sudo is required for package installation."; fi
+if ! have curl; then
+    warn "curl is missing. Install it manually with your distribution's package manager before using pnpm or Atuin."
 fi
+main_menu
