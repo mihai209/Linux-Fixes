@@ -271,7 +271,8 @@ main_menu() {
             4) multimedia_menu; pause ;;
             5) network_menu; pause ;;
             6) diagnostics_menu; pause ;;
-            8) shell_menu; pause ;;\n            9) pnpm_menu; pause ;;
+            8) shell_menu; pause ;;
+            9) pnpm_menu; pause ;;
             7)
                 detect_system
                 say "Choose which setup categories you need:"
@@ -281,6 +282,7 @@ main_menu() {
                 ask_yes_no "Install network tools?" && network_menu
                 ask_yes_no "Install system diagnostics?" && diagnostics_menu
                 ask_yes_no "Install Zsh and Atuin?" && shell_menu
+                ask_yes_no "Install pnpm?" && pnpm_menu
                 pause
                 ;;
             0) exit 0 ;;
