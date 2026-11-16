@@ -262,6 +262,7 @@ main_menu() {
           "6) System diagnostic utilities" \
           "7) Run full detection, then choose categories" \
           "8) Zsh + Atuin shell setup" \
+          "9) Install / update pnpm" \
           "0) Exit"
         read -r -p "Choose an option: " choice || exit 0
         case "$choice" in
