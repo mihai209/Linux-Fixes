@@ -118,3 +118,35 @@ Redact personal information before sharing logs.
 - [Ubuntu package: mesa-vulkan-drivers](https://packages.ubuntu.com/mesa-vulkan-drivers)
 - [Intel media driver documentation](https://github.com/intel/media-driver)
 - [Intel graphics installation guidance](https://dgpu-docs.intel.com/driver/client/overview.html)
+
+
+## Verified report: Ubuntu 26.04.1 LTS, Intel ICL GT1
+
+A real system report from Ubuntu 26.04.1 LTS (codename `resolute`) on an Intel Core i3-1005G1 showed:
+
+- Vulkan device: `Intel(R) UHD Graphics (ICL GT1)`, PCI device ID `8086:8a56`.
+- Vulkan driver: Mesa Intel open-source driver (ANV), Mesa `26.0.8-1ubuntu0.3`.
+- Vulkan API reported by the device: `1.4.335`.
+- OpenGL renderer: `Mesa Intel(R) UHD Graphics (ICL GT1)`, OpenGL `4.6`, `Accelerated: yes`.
+- VA-API driver: Intel iHD `26.1.2`, initialized successfully.
+- Reported VA-API decode profiles included H.264, HEVC Main/Main10, VP8, and VP9.
+- The Vulkan loader also listed `llvmpipe` as a CPU software device alongside the Intel GPU. Its presence alone is not an error; applications should select the Intel device for hardware acceleration.
+
+The following loader warnings appeared:
+
+```text
+ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR
+ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR
+```
+
+These warnings concern optional display enumeration entry points. In this report, Vulkan still enumerated the Intel GPU and the device reported Vulkan 1.4.335. The warnings alone do not demonstrate a Vulkan rendering failure.
+
+### Additional kernel-driver verification
+
+The report did not include `lspci -k`, so it does not independently prove which kernel driver is bound. Verify it with:
+
+```bash
+lspci -nnk | grep -A3 -Ei 'VGA|Display'
+```
+
+Expected kernel driver for this generation is generally `i915`; record the actual `Kernel driver in use` line rather than assuming it.
