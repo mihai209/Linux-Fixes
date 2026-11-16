@@ -24,7 +24,7 @@ Want to inspect your Linux system and choose which tools or diagnostics you need
 curl -fsSL https://raw.githubusercontent.com/mihai209/Linux-Fixes/main/scripts/linux-assistant.sh | bash
 ```
 
-Copy the command above, paste it into a terminal, and press Enter. The assistant detects system information and hardware, then offers optional categories such as driver recommendations, development tools (C/C++, CMake, Node.js, pnpm), multimedia diagnostics, network tools, and system utilities.
+Copy the command above, paste it into a terminal, and press Enter. The assistant detects system information and hardware, then offers optional categories such as driver recommendations, development tools (C/C++, CMake, Node.js, pnpm), Zsh with Atuin command-history search, multimedia diagnostics, network tools, and system utilities.
 
 **You stay in control:** the script asks before installing packages or running driver installation commands. Review the script before running it if you want to inspect exactly what it does: [scripts/linux-assistant.sh](scripts/linux-assistant.sh).
 
