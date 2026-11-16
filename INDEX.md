@@ -3,6 +3,7 @@
 ## Applications
 
 - [Mission Center: Snap permissions and display startup](docs/applications/mission-center/snap-permissions-and-display.md)
+- [Mission Center: Flatpak missing from KDE menu](docs/applications/mission-center/flatpak-missing-from-kde-menu.md)
 
 ## Package managers
 
@@ -15,6 +16,7 @@
 - [Wayland](docs/graphics/wayland/README.md)
 - [X11](docs/graphics/x11/README.md)
 - [Mesa](docs/graphics/mesa/README.md)
+- [Intel UHD Graphics G1: Vulkan and media drivers](docs/graphics/intel/uhd-g1-vulkan-and-media-drivers.md)
 
 ## Templates
 
