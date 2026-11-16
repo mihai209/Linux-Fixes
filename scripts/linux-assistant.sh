@@ -244,7 +244,8 @@ main_menu() {
             3) development_menu; pause ;;
             4) multimedia_menu; pause ;;
             5) network_menu; pause ;;
-            6) diagnostics_menu; pause ;;\n            8) shell_menu; pause ;;
+            6) diagnostics_menu; pause ;;
+            8) shell_menu; pause ;;
             7)
                 detect_system
                 say "Choose which setup categories you need:"
