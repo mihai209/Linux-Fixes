@@ -254,6 +254,7 @@ main_menu() {
                 ask_yes_no "Install multimedia diagnostics?" && multimedia_menu
                 ask_yes_no "Install network tools?" && network_menu
                 ask_yes_no "Install system diagnostics?" && diagnostics_menu
+                ask_yes_no "Install Zsh and Atuin?" && shell_menu
                 pause
                 ;;
             0) exit 0 ;;
