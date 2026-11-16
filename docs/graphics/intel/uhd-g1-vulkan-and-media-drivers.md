@@ -150,3 +150,16 @@ lspci -nnk | grep -A3 -Ei 'VGA|Display'
 ```
 
 Expected kernel driver for this generation is generally `i915`; record the actual `Kernel driver in use` line rather than assuming it.
+
+
+### Confirmed kernel binding (same system)
+
+A follow-up `lspci -nnk` report confirmed:
+
+```text
+00:02.0 VGA compatible controller: Intel Corporation Iris Plus Graphics G1 (Ice Lake) [8086:8a56]
+    Kernel driver in use: i915
+    Kernel modules: i915
+```
+
+This confirms the expected `i915` kernel driver is bound to the integrated GPU. PCI identifies the device as Iris Plus Graphics G1, while Mesa's Vulkan/OpenGL output labels the same PCI device as Intel UHD Graphics (ICL GT1).
