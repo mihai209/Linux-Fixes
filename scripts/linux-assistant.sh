@@ -205,7 +205,14 @@ main_menu() {
     done
 }
 
-if [[ "${BASH_SOURCE[0]}" == "$0" || ! -t 0 ]]; then
+# When piped from curl, stdin contains the script itself. Reattach prompts to
+# the user's terminal so the interactive menu can still read answers.
+if [[ ! -t 0 ]]; then
+    [[ -r /dev/tty ]] || die "An interactive terminal is required. Run this script in a terminal."
+    exec </dev/tty
+fi
+
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
     if ! have sudo; then die "sudo is required for package installation."; fi
     if ! have curl; then
         warn "curl is missing. Install it manually with your distribution's package manager before using the pnpm option."
